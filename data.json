@@ -2292,7 +2292,7 @@
   {
     "title": "Khalid [ZOI]",
     "level": "★2",
-    "comment": "T / 1 ",
+    "comment": "T / 2 ",
     "artist": "Dolphin Movie: はづく / obj:SUZUKAZEΛ",
     "url": "https://bmssearch.net/venue/detail?event=vfpq02&id=3",
     "url_diff": "http://gnqg.rosx.net/upload/upload.cgi?get=01372",
@@ -2570,7 +2570,6 @@
     "sha256": "4f4d4b54d5522a8a345e1caeda742a7b02d2f6568bba1c302bada9e169090b46"
   },
   {
-    "state": "1",
     "title": "赤い月偽 ~奈落堕とし~",
     "level": "★1",
     "comment": "FT / 3 ",
@@ -2579,5 +2578,55 @@
     "url_diff": "",
     "md5": "e77c9292a03818dd33f88deced72e105",
     "sha256": "39153ccdbfc831bb18971490d9623419afa012dd20aa70d5582756b636baac5c"
+  },
+  {
+    "title": "mofulate",
+    "level": "☆10",
+    "comment": "FI / 2 ",
+    "artist": "utubo",
+    "url": "http://manbow.nothing.sh/event/event.cgi?action=More_def&num=71&event=135",
+    "url_diff": "",
+    "md5": "15e9db2caf274f968615aa53d2953f48",
+    "sha256": "d51d6b52b8b11d7d39e4524cc0fe64d0f57d6756dfa899be6590e85f02aa3e4b"
+  },
+  {
+    "title": "ホーンテッド・ドールキャッスル",
+    "level": "★1",
+    "comment": "F / 2 ",
+    "artist": "りょくちゃ",
+    "url": "http://manbow.nothing.sh/event/event.cgi?action=More_def&num=76&event=135",
+    "url_diff": "",
+    "md5": "dca6324c531548ca5c402bf5206128c1",
+    "sha256": "7869d1f7f7cc49bdaa657014bde1c9956aa52cdc4ff143023f578ec63c6b4176"
+  },
+  {
+    "title": "Energetic [ANOTHER]",
+    "level": "★2",
+    "comment": "I / 4 SCROLL",
+    "artist": "Dolphin Movie: 140/fth",
+    "url": "http://9domu46i.com/yuruyuru/phase12.html",
+    "url_diff": "",
+    "md5": "1e7792e4f12b33a9724802375f23580b",
+    "sha256": "a84c9752ad1acb5334892b9d980a242ad47ddc302fabc251435a4f70d438fead"
+  },
+  {
+    "title": "ぎんがのハッピーエンド（Bitpop mix） [Another]",
+    "level": "☆11",
+    "comment": "FI / 4 ",
+    "artist": "Remixed by NASA / 株式会社タカラ",
+    "url": "https://venue.bmssearch.net/bmstukuru2020/21",
+    "url_diff": "",
+    "md5": "200123063ef299d2a02d09336b7a2d01",
+    "sha256": "8a8f1ffc1279847ae7b052713e640ebd4d69c472718e9965600df573bb83683d"
+  },
+  {
+    "title": "urara [7key Another]",
+    "level": "☆11",
+    "comment": "FT / 2 ",
+    "artist": "Ym1024",
+    "url": "http://manbow.nothing.sh/event/event.cgi?action=More_def&num=13&event=134",
+    "url_diff": "",
+    "md5": "f2b4e1b84ad2092652b1c5d8ea1cf10a",
+    "sha256": "272819c28fa8b0fcc5a877bfd628ee242574637b27d37ad0d053cf08a008af46"
   }
 ]
