@@ -1,0 +1,294 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+
+<head>
+<title>FIT難易度表</title>
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="bmstable" content="./header.json" /> <!--　読み込む難易度表のヘッダファイルをここに指定　-->
+<link href="style/style.css?202107202129" rel="stylesheet" type="text/css" media="screen,print" />
+<script src="style/jquery-2.0.2.min.js"></script>
+</head>
+
+<body class="diff">
+
+<center>
+<strong><span style="font-size: 24pt;">FIT難易度表</span></strong><br>
+<div id="description">
+管理人である染みがプレイして良いと感じた7Keys譜面を集めた難易度表です。<br>
+主観により、以下の評価軸で譜面傾向をタグ付けしています。<br>
+
+<strong>FITタグ</strong><br>
+<span style="color:red">Fun</span>: プレイしていて楽しい譜面、ノれる譜面、爽快な譜面。曲の良さを引き出している譜面。個人的なFavorite加減も含む可能性あり。<br>
+<span style="color:#0099ff">Interesting</span>: 配置やコンセプトが面白い譜面、興味深い譜面。表現力に優れた譜面。やや癖譜面寄り(縦連、皿、LN、ソフランなど)。<br>
+<span style="color:yellow">Training</span>: 実力向上に役立つ、鍛えられる譜面。鍵盤、皿関係なく上達できる譜面。過度な殺しが少ない譜面。<br>
+<br>
+F: 曲に合った押し心地のいい譜面。<br>
+I: 万人受けはしないが面白味のある譜面。<br>
+T: 苦しくもシンプルに地力に効く譜面。<br>
+FI: 癖はあるが表現力が高く、プレイ感も良い譜面。<br>
+FT: 配置のバランスが良く、楽しく鍛えられる譜面。<br>
+IT: 癖要素の練習になる譜面。<br>
+FIT: 曲と合っていて、多要素を試される譜面。<br>
+
+<!--<strong>EIレベル</strong><br>
+地力-個人差レベル(Earth Power-Individual Difference Level)<br>-->
+<strong>個人差レベル</strong><br>
+1～5まであり、1に近いほど地力寄り、5に近いほど個人差寄りを表す。<br>
+6はソフランやギミックなどで初見クリアが困難そうな譜面の隔離枠。<br>
+
+<strong>譜面難易度</strong><br>
+難易度付けはMocha-RepositoryのLevel Reviewに準拠し、通常難易度の☆1～☆12と発狂難易度の★1～★27をそのまま使用。<br>
+ゲージ基準はイージー9割ハード1割くらいの比重(すごく適当)。<br>
+<br>
+
+連絡・報告は染みの<a href="https://twitter.com/39mogura" target="_blank">Twitter</a>へリプライ、DMでお願いします。<br>
+最終更新日: 2021/07/20
+</div>
+<!--<a href="index.html">TOPに戻る</a><br>-->
+</center>
+
+
+<!--　　　　　ここから難易度表本体　　　　　-->
+<div class="tableflame">
+<table align="center" cellspacing="1" cellpadding=2　border="0" bgcolor="#000000" id="table_int">
+</table>
+</div>
+
+<script language="javascript" type="text/javascript">
+
+// メニュー開閉
+function menu(tName){
+	var tMenu = document.getElementById(tName).style;
+	if (tMenu.display == 'none'){
+		tMenu.display = "block";
+	}else{
+		tMenu.display = "none";
+	}
+}
+
+
+$(document).ready(function(){
+	$.getJSON($("meta[name=bmstable]").attr("content"), function(header){
+		$.getJSON(header.data_url, function(information){
+			// headerのsort有無で分岐
+			if(header["level_order"]){
+				makeBMSTable(information,header.symbol,header["level_order"]);
+			} else {
+			makeBMSTable(information,header.symbol);
+			}
+		});
+	});
+});
+
+
+// ソートのための引数追加
+function makeBMSTable(info, mark, order) {
+	// orderが未指定の場合はnull
+	if(typeof order === 'undefined'){
+		order = null;
+	}
+	
+    var x = "";
+    var ev = "";
+    var count = 0;
+    var obj = $("#table_int");
+
+	// ソート
+	if(order != "" && order != null){
+		// herder.jsonにsortが存在する場合は指定順->タイトル順にソート
+		
+		var orderAry = [];
+		for(var l = 0; l < order.length; l++){
+			orderAry.push(order[l].toString());
+		}
+		
+		for(var j = 0; j < info.length; j++){
+		    var index=orderAry.indexOf(info[j]["level"]);
+		    info[j]["_index"]=index;
+		}
+
+		info.sort(function(a,b){
+		    if(a["_index"] < b["_index"]){
+				return -1;
+		    } else if(a["_index"] > b["_index"]){
+				return 1;
+			} else if( a["title"].toLowerCase() < b["title"].toLowerCase() ){
+				return -1;
+			} else if( a["title"].toLowerCase() > b["title"].toLowerCase() ){
+				return 1;
+			} else {
+	　	　　	return 0;
+			}
+		});
+		for(var k=0; k < info.length; k++){
+			delete info[k]["_index"];
+		}
+	} else {
+		// そうでない場合はレベル順->タイトル順にソート
+		info.sort(
+			function(a,b){
+				var aLv = a["level"].toString();
+				var bLv = b["level"].toString();
+				if(isNaN(a["level"]) == false && isNaN(b["level"]) == false){
+					return a["level"]-b["level"];
+				} else if( aLv < bLv ){
+					return -1;
+				} else if( aLv > bLv ){
+					return 1;
+				} else if( a["title"].toLowerCase() < b["title"].toLowerCase() ){
+					return -1;
+				} else if( a["title"].toLowerCase() > b["title"].toLowerCase() ){
+					return 1;
+				} else {
+		　	　　	return 0;
+				}
+			}
+		);
+	}
+	
+    // 表のクリア
+    obj.html("");
+    $("<tr height='20' style='color:white;background-color:#666666'><td align='center'>LV</td><td align='center'>譜面</td><td align='center'>タイトル</td><td align='center'>本体</td><td align='center'>差分</td><td align='center'>FITタグ</td><td align='center'>個人差レベル</td><td align='center'>コメント</td><td align='center'>beatorajaIR</td></tr>").appendTo(obj);
+    var obj_sep = null;
+    for (var i = 0; i < info.length; i++) {
+        // 難度ごとの区切り
+        if (x != info[i].level) {
+            // 前の区切りに譜面数、平均密度を追加
+          	if (obj_sep != null) {
+                obj_sep.html("<td colspan='9' align='center'>" + "<b>" + mark + x + " (" + count + "譜面)</b></td>");
+            }
+            obj_sep = $("<tr class='tr_separate' id='" + mark + info[i].level + "'></tr>");
+            obj_sep.appendTo(obj);
+            count = 0;
+            x = info[i].level;
+        }
+        // 本文
+        var str = $("<tr class='tr_normal'></tr>");
+
+        if(info[i].state == 1) {
+        str = $("<tr class='state1'></tr>");
+        }
+        if(info[i].state == 2) {
+        str = $("<tr class='state2'></tr>");
+        }
+        if(info[i].state == 3) {
+        str = $("<tr class='state3'></tr>");
+        }
+        if(info[i].state == 4) {
+        str = $("<tr class='state4'></tr>");
+        }
+        if(info[i].state == 5) {
+        str = $("<tr class='state5'></tr>");
+        }
+        if(info[i].state == 6) {
+        str = $("<tr class='state6'></tr>");
+
+        }
+
+        // レベル表記
+        $("<td width='6%'>" + mark + x + "</td>").appendTo(str);
+		// 譜面画像
+		$("<td width='1%' akign='center'><a href='http://www.ribbit.xyz/bms/score/view?p=1&md5=" + info[i].md5 + "' target='_blank'>■</a></td>").appendTo(str);
+
+        // タイトル
+        $("<td width='20%'>" + "<a href='http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=ranking&bmsmd5=" + info[i].md5 + "' target='_blank'>" + info[i].title + "</a></td>").appendTo(str);
+        // アーティスト
+        var astr = "";
+        if(info[i].url != "" && info[i].url != null) {
+        	if(info[i].artist != "" && info[i].artist != null) {
+        		astr = "<a href='" + info[i].url + "' target='_blank'>" + info[i].artist + "</a>";
+        	} else {
+        		astr = "<a href='" + info[i].url + "' target='_blank'>" + info[i].url + "</a>";
+        	}
+        } else {
+        	if(info[i].artist != "" && info[i].artist != null) {
+        		astr = info[i].artist;
+        	}
+        }
+        if(info[i].url_pack != "" && info[i].url_pack != null) {
+        	if(info[i].name_pack != "" && info[i].name_pack != null) {
+        		astr += "<br />(<a href='" + info[i].url_pack + "' target='_blank'>" + info[i].name_pack + "</a>)";
+        	} else {
+        		astr += "<br />(<a href='" + info[i].url_pack + "' target='_blank'>" + info[i].url_pack + "</a>)";
+        	}
+        } else {
+        	if(info[i].name_pack != "" && info[i].name_pack != null) {
+        		astr += "<br />(" + info[i].name_pack + ")";
+        	}
+        }
+        $("<td width='20%'>" + astr + "</td>").appendTo(str);
+        // 差分
+        if(info[i].url_diff != "" && info[i].url_diff != null) {
+        	/*if(info[i].name_diff != "" && info[i].name_diff != null) {
+	        $("<td width='15%'><a href='" + info[i].url_diff + "'>" + info[i].name_diff + "</a></td>").appendTo(str);
+        	} else {
+	        $("<td width='15%'><a href='" + info[i].url_diff + "'>" + info[i].url_diff + "</a></td>").appendTo(str);
+        	}*/
+        	$("<td width='4%'><a href='" + info[i].url_diff + "' target='_blank'>" + "Sabun DL" + "</a></td>").appendTo(str);
+        } else {
+        	/*if(info[i].name_diff != "" && info[i].name_diff != null) {
+	        $("<td width='5%'>" + info[i].name_diff + "</td>").appendTo(str);
+        	} else {
+	        $("<td width='5%'></td>").appendTo(str);
+        	}*/
+        	$("<td width='4%'></td>").appendTo(str);
+        }
+        // FITタグ
+        var f_icon = i_icon = t_icon = "";
+        if (/^F\S* \//.test(info[i].comment)) {
+        	f_icon = "<img src='style/fit-f.png' border='0' width='18' height='18' alt='Fun_icon' />"
+        }
+        if (/^\S*I\S* \//.test(info[i].comment)) {
+        	i_icon = "<img src='style/fit-i.png' border='0' width='18' height='18' alt='Interesting_icon' />"
+        }
+        if (/^\S*T \//.test(info[i].comment)) {
+        	t_icon = "<img src='style/fit-t.png' border='0' width='18' height='18' alt='Training_icon' />"
+        }
+        $("<td width='3%'>" + f_icon + i_icon + t_icon + "</td>").appendTo(str);
+        // EIレベル
+        var ei_lv = /^\S+ \/ (\d)/.exec(info[i].comment)[1];
+        var ei_color = "";
+        switch (ei_lv) {
+        	case '1':
+        		ei_color = "#007F1F";
+        		break;
+        	case '2':
+        		ei_color = "#467F00";
+        		break;	
+        	case '3':
+        		ei_color = "#7F7400";
+        		break;
+        	case '4':
+        		ei_color = "#7F4400";
+        		break;
+        	case '5':
+        		ei_color = "#7F0000";
+        		break;
+        	case '6':
+        		ei_color = "#68007F";
+        		break;
+        }
+        $("<td width='2%'><span style='font-size: 15px; color: " + ei_color +"; '><b>" + ei_lv + "</b></span></td>").appendTo(str);
+        // コメント
+        var comment = /^\S+ \/ \d (.*)/.exec(info[i].comment)[1];
+        $("<td width='14%'>" + comment + "</td>").appendTo(str);
+        // beatoraja IR
+        $("<td width='8%'>" + "<a href='https://mocha-repository.info/song.php?sha256=" + info[i].sha256 + "' target='_blank'>Mocha-Repository</a> <a href='https://www.gaftalk.com/minir/#/viewer/song/" + info[i].sha256 + "/0' target='_blank'>MinIR</a></td>").appendTo(str);
+        str.appendTo(obj);
+        count++;
+    }
+
+    
+    // 最後の区切り処理
+	// マークが抜け落ちてたので追加
+    if (obj_sep != null) {
+        obj_sep.html("<td colspan='9' align='center'>" + "<b>" + mark + x + " (" + count + "譜面)</b></td>");
+    }
+}
+</script>
+
+
+</body>
+</html>
