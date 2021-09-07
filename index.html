@@ -7,6 +7,7 @@
 <meta http-equiv="Content-Style-Type" content="text/css" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="bmstable" content="./header.json" /> <!--　読み込む難易度表のヘッダファイルをここに指定　-->
+<meta name="lastdate" content="https://script.google.com/macros/s/AKfycbz9P8XqrAmDEQ8Ragc1ecrbkLzE15eDjMmWmhL6YfTEwtjrR7Ffia5uRYYM6lkIIrBm/exec" />
 <link href="style/style.css?202107221530" rel="stylesheet" type="text/css" media="screen,print" />
 <script src="style/jquery-2.0.2.min.js"></script>
 </head>
@@ -43,11 +44,21 @@ FIT: 曲と合っていて、多要素を試される譜面。<br>
 <br>
 
 連絡・報告は染みの<a href="https://twitter.com/39mogura" target="_blank">Twitter</a>へリプライ、DMでお願いします。<br>
-最終更新日: 2021/07/24
+最終更新日: <span id="lastdate"></span>
 </div>
 <!--<a href="index.html">TOPに戻る</a><br>-->
 
+<script language="javascript" type="text/javascript">
+$(document).ready(function(){
+	$.getJSON($("meta[name=lastdate]").attr("content"), function(data){
+		var obj = $("#lastdate");
+		$("<span>" + data["lastdate"] + "</span>").appendTo(obj);
+	});
+});
+</script>
+
 <!--　　　　　ここから難易度表本体　　　　　-->
+<!-- from: PMS Database (https://pmsdifficulty.xxxxxxxx.jp/column_table.html) -->
 <div class="tableflame">
 <table align="center" cellspacing="1" cellpadding=2　border="0" bgcolor="#000000" id="table_int">
 </table>
